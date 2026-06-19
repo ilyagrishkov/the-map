@@ -293,6 +293,25 @@ button { font-family: inherit; }
 .letter .signoff { color: var(--rose-deep); }
 .letter .ps { font-family: var(--sans); font-size: 13.5px; color: var(--muted); font-style: normal; margin-top: 8px; }
 
+/* assembled love-letter "verse" at the finale — italic lines with heart dividers */
+.letter .verse { text-align: center; margin: 2px 0 6px; }
+.letter .verse p {
+  font-family: var(--serif); font-style: italic;
+  font-size: 17px; line-height: 1.45; color: var(--rose-deep);
+  margin: 0; padding: 7px 6px;
+}
+.letter .verse p + p::before {
+  content: "♡"; display: block; color: var(--gold);
+  font-size: 12px; font-style: normal; line-height: 1; margin: 4px 0 11px;
+}
+
+/* close-up "find the box" photo on the Stroomi screen */
+.spot-photo {
+  width: 100%; max-height: 40vh; object-fit: cover;
+  border-radius: 16px; margin: 2px 0 14px;
+  box-shadow: var(--shadow); display: block;
+}
+
 /* ---------- toast / banner ---------- */
 .toast {
   position: fixed; z-index: 30; left: 50%; transform: translateX(-50%);

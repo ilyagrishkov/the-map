@@ -27,10 +27,16 @@ window.CONFIG = {
   letter: [
     "By now you've sailed to the islands, stood on a hidden cliff, fed a whole park of animals, climbed a tower above the bog, and pedalled across a wild cape to a lighthouse standing in the sea — just to get here, to the final pin.",
     "I built this whole silly, wonderful map for one reason: I love taking you places, but more than that, I love watching you light up when we get there. That's still my favourite view. Not the cliffs, not the sea. You.",
-    "Thank you for saying yes to the adventures, big and small. Here's to a hundred more maps — and to always being the one riding beside you.",
+    "Thank you for saying yes to the adventures, big and small.",
   ],
   letterSignoff: "All my love,",   // <-- EDIT
-  finaleNote: "P.S. The bikes and the picnic are already packed. All you have to do is come with me.",
+  finaleNote: "P.S. The picnic is already packed. All you have to do is to enjoy it with me.",
+
+  // Shown the evening she finds the box (after the secret word) — keeps tomorrow a mystery.
+  standby: {
+    title: "That's all for tonight 🌙",
+    text: "The map isn't finished with you — but the rest sleeps until morning. Keep the letter safe, pack a small bag and your bike, and rest. When you wake up, open this again and the next secret will be waiting. 💛",
+  },
 };
 
 /* =====================================================================
@@ -63,20 +69,22 @@ window.STATIONS = [
     lat: 59.4430894, lon: 24.6840831,
     radius: 150,
     pin: "zone",
-    tile: { emoji: "🍾", gradient: "linear-gradient(135deg,#7b8cff,#c8a2ff)" },
+    tile: { emoji: "📦", gradient: "linear-gradient(135deg,#7b8cff,#c8a2ff)" },
     clue: {
       title: "Our story starts by the sea",
       text: "Good morning, my love. Today there is only one place on this whole map. Go to where the city meets the water — Stroomi beach — and walk down onto the sand. When you're close, I'll show you exactly where to look. 💛",
     },
     arrive: {
-      title: "You're here — now dig 🏖️",
-      text: "Find the big grey rock near the water, take ten steps toward the sea, and dig a little in the sand. Something is waiting for you in a bottle.",   // <-- EDIT to match where you bury it
+      title: "You're here — now find the box 📦",
+      text: "Somewhere right around where you're standing, a little box is buried in the sand. This is exactly what to look for — match the photo, then dig. Inside is a letter, and a poem with a secret folded into it. 💛",   // <-- EDIT to match where you hide it
+      photo: "assets/photos/box.jpg",   // <-- a close-up of the hiding spot (drop a JPG named box.jpg into assets/photos/)
     },
     code: true,
-    codePrompt: "Type the word hidden on the note inside the bottle:",
+    codePrompt: "The poem in the letter hides one word. Read it, then type the word it spells:",
+    codeHint: "Take the first letter of each of the first four lines, top to bottom — they spell it. 💛",   // <-- shown if she taps “Need a hint?”
     reveal: {
-      title: "We're going on an adventure ✨",
-      text: "Pack a bag and your bike, my love — tomorrow we sail to the islands. Saaremaa and Muhu are waiting: hidden cliffs, a whole park of animals to pet, a tower over the bog, and a wild cape we ride out to on two bikes. This little map will guide us, one secret at a time. Sleep well. Tomorrow, the real adventure begins. — me 💛",
+      title: "This is only the beginning… ✨",
+      text: "But the map isn't done with you yet. Keep that letter close, pack a small bag and your bike, and get a good night's sleep — because tomorrow it wakes up again, and the real adventure begins. I'll be guiding you the whole way, one secret at a time. — me 💛",
     },
   },
 

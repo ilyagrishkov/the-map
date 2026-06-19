@@ -53,11 +53,13 @@
   }
 
   // dev shortcuts: ?reset=1 clears progress; ?jump=<id> marks prior stations done
+  var jumpUsed = false;
   (function devParams() {
     var q = new URLSearchParams(location.search);
     if (q.get("reset")) { state = freshState(); save(); }
     var jump = q.get("jump");
     if (jump) {
+      jumpUsed = true;
       for (var i = 0; i < STATIONS.length; i++) {
         if (STATIONS[i].id === jump) break;
         state.done[STATIONS[i].id] = true; state.arrived[STATIONS[i].id] = true;
@@ -71,6 +73,13 @@
     return null;
   }
   function stationIndex(id) { for (var i = 0; i < STATIONS.length; i++) if (STATIONS[i].id === id) return i; return -1; }
+
+  // Keep tomorrow a mystery: gate the first island stop until the calendar day
+  // after the box is found. The standby screen is dismissible, so it never blocks.
+  var inStandby = false;
+  var firstTomorrowId = (function () { for (var i = 0; i < STATIONS.length; i++) if (STATIONS[i].phase === "tomorrow") return STATIONS[i].id; return null; })();
+  function sameDayAsStroomi() { var t = state.times && state.times.stroomi; return !!t && new Date(t).toDateString() === new Date().toDateString(); }
+  function standbyNeeded(a) { return !!a && a.id === firstTomorrowId && !jumpUsed && sameDayAsStroomi(); }
 
   /* ---------- map ---------- */
   var TILES = {
@@ -97,7 +106,7 @@
   function renderMap() {
     if (!map) return;
     markerGroup.clearLayers();
-    var active = activeStation();
+    var active = inStandby ? null : activeStation();
     var pts = [];
     STATIONS.forEach(function (s) {
       var isDone = !!state.done[s.id];
@@ -156,6 +165,18 @@
     setSheet(html);
     renderDistance(s);
     $("#here").addEventListener("click", function () { onImHere(s); });
+  }
+
+  function sheetStandby(a) {
+    inStandby = true; lastFitKey = ""; renderMap();
+    var sb = CONFIG.standby || { title: "That's all for tonight 🌙", text: "Come back tomorrow, my love." };
+    var html =
+      '<p class="eyebrow">Goodnight 🌙</p>' +
+      "<h1>" + esc(sb.title) + "</h1>" +
+      "<p>" + esc(sb.text) + "</p>" +
+      '<div class="btn-row"><button class="btn btn-ghost" id="sbgo">Already on our way? Continue ›</button></div>';
+    setSheet(html);
+    $("#sbgo").onclick = function () { inStandby = false; lastFitKey = ""; renderMap(); sheetClue(a); };
   }
 
   function renderDistance(s) {
@@ -259,21 +280,23 @@
   }
 
   function sheetCode(s) {
+    var photo = s.arrive && s.arrive.photo ? '<img class="spot-photo" src="' + esc(s.arrive.photo) + '" alt="a close-up of where it\'s hidden" onerror="this.remove()">' : "";
     var html =
       '<p class="eyebrow">You\'re here</p>' +
       "<h1>" + esc(s.arrive.title) + "</h1>" +
       "<p>" + esc(s.arrive.text) + "</p>" +
-      '<p style="font-weight:700;margin-bottom:8px">' + esc(s.codePrompt) + "</p>" +
+      photo +
+      '<p style="font-weight:700;margin:2px 0 8px">' + esc(s.codePrompt) + "</p>" +
       '<div class="code-field"><input id="cin" inputmode="text" autocomplete="off" placeholder="the secret word" aria-label="secret word" /></div>' +
       '<div id="chint"></div>' +
       '<div class="btn-row"><button class="btn btn-primary" id="cok">Open it</button>' +
-      '<button class="btn btn-ghost" id="cnope">Can\'t find it?</button></div>';
+      '<button class="btn btn-ghost" id="cnope">Need a hint?</button></div>';
     setSheet(html);
     var input = $("#cin");
     $("#cok").onclick = function () { tryCode(s, input.value); };
     input.addEventListener("keydown", function (e) { if (e.key === "Enter") tryCode(s, input.value); });
     $("#cnope").onclick = function () {
-      $("#chint").innerHTML = '<p class="sub">It\'s buried in the sand by the landmark in the note above. Still stuck? Call me 💛</p>';
+      $("#chint").innerHTML = '<p class="sub">' + esc(s.codeHint || "It's buried right around where you're standing — match the photo and dig. Still stuck? Call me 💛") + "</p>";
     };
     input.focus();
   }
@@ -285,7 +308,9 @@
 
   /* ---------- completion + reveals ---------- */
   function complete(s) {
-    state.done[s.id] = true; state.arrived[s.id] = true; save();
+    state.done[s.id] = true; state.arrived[s.id] = true;
+    state.times = state.times || {}; if (!state.times[s.id]) state.times[s.id] = new Date().toISOString();
+    save();
     renderProgress(); renderMap();
     if (s.id === "stroomi" && s.reveal) return showStroomiReveal(s);
     if (s.finale) return showFinale(s);
@@ -334,10 +359,15 @@
         '<p class="eyebrow">A secret, just for you</p>' +
         "<h1>" + esc(s.reveal.title) + "</h1>" +
         "<p>" + esc(s.reveal.text) + "</p>" +
-        '<button class="btn btn-primary" id="cont">See where we\'re going ›</button>' +
+        '<button class="btn btn-primary" id="cont">Continue ›</button>' +
       "</div>";
     showOverlay(html);
-    $("#cont").onclick = function () { hideOverlay(); lastFitKey = ""; renderMap(); var a = activeStation(); if (a) sheetClue(a); };
+    $("#cont").onclick = function () {
+      hideOverlay(); lastFitKey = "";
+      var a = activeStation();
+      if (a && standbyNeeded(a)) { sheetStandby(a); }
+      else { renderMap(); if (a) sheetClue(a); }
+    };
   }
 
   function showFinale(s) {
@@ -353,7 +383,7 @@
         '<p class="eyebrow">For ' + esc(CONFIG.herName || "you") + " 💌</p>" +
         '<div class="mosaic">' + cells + "</div>" +
         '<div class="letter">' +
-          lines +
+          '<div class="verse">' + lines + "</div>" +
           '<hr style="border:none;border-top:1px solid var(--line);margin:14px 0">' +
           letter +
           '<p class="signoff">' + esc(CONFIG.letterSignoff || "With all my love,") + "<br>" + esc(CONFIG.fromName || "") + "</p>" +
@@ -386,26 +416,34 @@
     if (a && !state.arrived[a.id]) renderDistance(a);
   }
   function autoUnlock() {
+    if (inStandby) return;
     var a = activeStation();
     if (!a || state.arrived[a.id] || !lastFix) return;
     if (haversine(lastFix.lat, lastFix.lon, a.lat, a.lon) <= a.radius) arrive(a);
   }
 
   function preloadPhotos() {
-    STATIONS.forEach(function (s) { if (s.tile && s.tile.photo) { var im = new Image(); im.src = s.tile.photo; } });
+    STATIONS.forEach(function (s) {
+      if (s.tile && s.tile.photo) { var im = new Image(); im.src = s.tile.photo; }
+      if (s.arrive && s.arrive.photo) { var im2 = new Image(); im2.src = s.arrive.photo; }
+    });
   }
 
   /* ---------- boot ---------- */
   function boot() {
     if (!STATIONS.length) { setSheet("<p>No journey configured.</p>"); return; }
     initMap();
+    var a = activeStation();
+    var standby = !!a && !state.arrived[a.id] && standbyNeeded(a);
+    if (standby) inStandby = true;
     renderProgress();
     renderMap();
     preloadPhotos();
-    var a = activeStation();
     if (!a) { showFinale(STATIONS[STATIONS.length - 1]); return; }
     if (state.arrived[a.id]) { // resumed mid-stop
       if (a.code) sheetCode(a); else if (!a.finale) sheetArrivedQuiz(a); else sheetClue(a);
+    } else if (standby) {
+      sheetStandby(a);
     } else {
       sheetClue(a);
     }
