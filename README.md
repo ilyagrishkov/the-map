@@ -44,18 +44,26 @@ reveals that tomorrow you sail to the islands.
 2. **Saaremaa Zoo** — the pet zoo you promised; feed & pet the animals. *Lunch right after*
    (the on-site PART café, or carry on toward Kuressaare).
 3. **Mullutu-Loode bog tower** — a boardwalk over the wetlands and a climb up the tower.
-4. **Kuressaare → the coast** — dinner by the marina, then drop the bikes and ride the
-   **Kuressaare–Mändjala coastal path** (~1 hr, flat, separated from traffic, sea the whole way).
-5. **Mändjala beach** — the finale: drop the bikes in the sand, watch the sunset, read the letter.
+4. **Harilaid (the ride)** — drive to the Harilaid car park at the edge of Vilsandi national
+   park, leave the car, and cycle the ~5 km trail across the wild cape (no cars past the barrier).
+5. **Kiipsaare leaning lighthouse** — the finale: a white lighthouse standing *in* the sea.
+   Picnic on the dunes, read the letter, then cycle back and drive to the ferry.
 
 ### Logistics (verified June 2026 — re-check before you go)
 - **Ferry** Virtsu⇄Kuivastu (praamid.ee): ~hourly, ~30 min crossing, first ~05:35, last just
   after midnight. **Book online**, arrive ~30 min early in summer. Car + bikes go on board.
 - **Saaremaa Zoo** (Mäeküla, ~30 min NE of Kuressaare): May→ open daily 10:00–18:00. saaremaazoo.ee
-- **Dinner in Kuressaare**: Resto Hafen (on the marina, right where the ride starts),
-  Vinoteek Prelude, or Ku-Kuu. Book ahead.
-- Tallinn→Kuressaare is ~3.5–4 h each way; mid-June daylight runs ~04:30–22:45, which is what
-  makes the day trip possible. Leave early.
+- **Picnic, not a restaurant**: Harilaid/Kiipsaare is uninhabited — no shops or cafés out
+  there. Buy everything in **Kuressaare** (the last proper shops) before heading north-west.
+  Pack water, warm layers (the cape is windy and exposed), and the picnic.
+- **The ride**: Harilaid car park → Kiipsaare lighthouse is ~4.5–5 km each way (~9–10 km round
+  trip) on sandy/grassy trail; cycling is allowed (no cars past the barrier). Soft sand near the
+  lighthouse may mean walking the bikes the final bit.
+- **⚠️ Last ferry / timing**: Kiipsaare is the far NW corner — ~110–120 km / ~2 h by road back
+  to the Kuivastu ferry, whose last crossing is just after midnight (confirm on praamid.ee). An
+  **early-evening picnic** makes a same-day return doable but long; if you want the ~22:40
+  **sunset** at the lighthouse, plan an **overnight in Kuressaare** rather than racing the ferry.
+- Tallinn→Kuressaare is ~3.5–4 h each way; mid-June daylight runs ~04:30–22:45. Leave early.
 
 ---
 
@@ -76,7 +84,7 @@ never strand you. You'll be together, so you can always nudge it along.
 Open the site with these URL tricks:
 - `?reset=1` — wipe progress and start fresh.
 - `?jump=<id>` — preview from a stop without travelling. IDs: `stroomi`, `uugu`, `zoo`,
-  `vaatetorn`, `ride`, `mandjala`. (e.g. `…/?jump=zoo`)
+  `vaatetorn`, `harilaid`, `kiipsaare`. (e.g. `…/?jump=zoo`)
 
 To answer the default quizzes while testing: **Muhu**, **moon**, **bog**, **bikes**.
 

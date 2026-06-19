@@ -25,12 +25,12 @@ window.CONFIG = {
   /* The heartfelt letter shown at the very end, once every station is done.
      Each string is one paragraph. Write from the heart. */
   letter: [
-    "By now you've sailed to the islands, stood on a hidden cliff, fed a whole park of animals, climbed a tower above the bog, and ridden the coast all the way to this last stretch of sand — just to get here, to the final pin.",
+    "By now you've sailed to the islands, stood on a hidden cliff, fed a whole park of animals, climbed a tower above the bog, and pedalled across a wild cape to a lighthouse standing in the sea — just to get here, to the final pin.",
     "I built this whole silly, wonderful map for one reason: I love taking you places, but more than that, I love watching you light up when we get there. That's still my favourite view. Not the cliffs, not the sea. You.",
     "Thank you for saying yes to the adventures, big and small. Here's to a hundred more maps — and to always being the one riding beside you.",
   ],
   letterSignoff: "All my love,",   // <-- EDIT
-  finaleNote: "P.S. The bikes are already in the car. All you have to do is come with me.",
+  finaleNote: "P.S. The bikes and the picnic are already packed. All you have to do is come with me.",
 };
 
 /* =====================================================================
@@ -74,7 +74,7 @@ window.STATIONS = [
     codePrompt: "Type the word written on the note inside the bottle:",
     reveal: {
       title: "We're going on an adventure ✨",
-      text: "Pack a bag and your bike, my love — tomorrow we sail to the islands. Saaremaa and Muhu are waiting: hidden cliffs, a whole park of animals to pet, a tower over the bog, and a coast made for two bikes and a sunset. This little map will guide us, one secret at a time. Sleep well. Tomorrow, the real adventure begins. — me 💛",
+      text: "Pack a bag and your bike, my love — tomorrow we sail to the islands. Saaremaa and Muhu are waiting: hidden cliffs, a whole park of animals to pet, a tower over the bog, and a wild cape we ride out to on two bikes. This little map will guide us, one secret at a time. Sleep well. Tomorrow, the real adventure begins. — me 💛",
     },
   },
 
@@ -149,46 +149,46 @@ window.STATIONS = [
     letterLine: "Even from the highest tower, you're still the best thing in sight.",
   },
   {
-    id: "ride",
+    id: "harilaid",
     phase: "tomorrow",
-    name: "Kuressaare → the coast",
-    lat: 58.2449633, lon: 22.4714290,   // Kuressaare yacht harbour — start of the coastal bike path
-    radius: 350,
+    name: "Harilaid — the ride",
+    lat: 58.4737700, lon: 21.9022600,   // Harilaid trailhead car park — no cars beyond the barrier
+    radius: 300,
     pin: "pin",
     tile: { emoji: "🚲", gradient: "linear-gradient(135deg,#2e8b9e,#86d0c4)" },
     clue: {
       title: "Now — the bikes",
-      text: "Back in Kuressaare we park the car for good and have dinner by the marina. Then we lift the bikes down: from right here a smooth seaside path — the Kuressaare–Mändjala kergliiklustee — runs along the coast, and we follow it west toward the sunset.",
+      text: "For the last stretch we drive out to the wild north-west, to the edge of Vilsandi park, and leave the car at the Harilaid barrier. No cars go past here — only us and the bikes. Grab the picnic: we're riding out to the sea.",
     },
     arrive: {
-      title: "Dinner, then two wheels 🚲",
-      text: "Dinner first — we earned it. Then helmets on. Find the coastal bike path by the water and point the wheels west, sea on your right. About an hour of easy pedalling, and one last pin waiting down the shore.",
+      title: "Off the road, onto the trail 🚲",
+      text: "Helmets on, picnic packed. From here a sandy trail runs about five kilometres across the cape — woods, dunes, and not another soul. Follow it north toward the water. (Soft sand near the end? We walk the bikes and laugh about it.)",
     },
     quiz: {
       question: "We brought two of these in the car for today — what are they?",
       answers: ["bikes", "bicycles", "bike", "bicycle"],
-      hint: "You're sitting on one right now.",
+      hint: "You're about to ride one across a whole cape.",
     },
     letterLine: "Side by side, at our own pace — that's my favourite way to go anywhere.",
   },
   {
-    id: "mandjala",
+    id: "kiipsaare",
     phase: "tomorrow",
-    name: "Mändjala beach",
-    lat: 58.2115652, lon: 22.3225275,
-    radius: 450,
+    name: "Kiipsaare lighthouse",
+    lat: 58.4957607, lon: 21.8410796,
+    radius: 500,
     pin: "pin",
     finale: true,
-    tile: { emoji: "🌅", gradient: "linear-gradient(135deg,#e7677e,#ffc187)" },
+    tile: { emoji: "🗼", gradient: "linear-gradient(135deg,#e7677e,#ffc187)" },
     clue: {
-      title: "Follow the coast to the last pin",
-      text: "Keep to the seaside path — past Nasva, past Järve — until the pines open onto a long, soft beach. That's Mändjala, where the sun melts into the sea. Drop the bikes in the sand. Our very last pin is here.",
+      title: "Ride to the leaning lighthouse",
+      text: "Keep going until the trees give way to open dunes and you see it: a white lighthouse standing right out in the sea, leaning as if it's tired from all the waiting. That's Kiipsaare — the end of the map. Lay out the picnic. We made it.",
     },
     arrive: {
       title: "For you 💌",
-      text: "You made it — all the way to the end of the map.",
+      text: "You rode all the way to the edge of the country, to a lighthouse standing in the sea. There's nowhere further to go — and nowhere I'd rather be.",
     },
-    letterLine: "And when the day finally ends, there's no one I'd rather watch the sun set with.",
+    letterLine: "And at the very edge of everything, it's still just you and me.",
   },
 ];
 
