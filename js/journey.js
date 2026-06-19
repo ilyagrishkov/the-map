@@ -148,7 +148,7 @@ window.STATIONS = [
     tile: {
       emoji: "🌾",
       gradient: "linear-gradient(135deg,#52a447,#a8d672)",
-      // photo: "assets/photos/bog.jpg",   // <-- add a JPG named bog.jpg in assets/photos/, then delete the //
+      photo: "assets/photos/watchtower.jpg",
     },
     clue: {
       title: "Above the bog",
