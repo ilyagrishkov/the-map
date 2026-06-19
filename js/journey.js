@@ -47,6 +47,8 @@ window.CONFIG = {
  *           Defaults work out of the box — but swapping in your own
  *           inside-jokes is where the magic is. "answers" can list several
  *           acceptable spellings; matching ignores case & punctuation.
+ *           Add  choices: ["A","B","C"]  for tappable multiple-choice (the
+ *           correct option must also appear in "answers").
  *  tile:    the emoji + colour that becomes her "memory tile" in the final
  *           mosaic. Add  photo: "assets/photos/yourfile.jpg"  for a real photo.
  * ===================================================================== */
@@ -96,9 +98,10 @@ window.STATIONS = [
       text: "Careful by the edge. Sit with me a minute and just watch the water — this is one of those quiet places the island keeps for people who bother to look.",
     },
     quiz: {
-      question: "Which little island are we standing on right now?",
-      answers: ["Muhu"],
-      hint: "It's the island the ferry brings you to, just before the causeway.",
+      // PERSONAL inside-joke ① — keep the question or change it, but PUT HER ANSWER below.
+      question: "Where did we go on our very first trip together?",
+      answers: ["CHANGE-ME"],   // <-- EDIT: the place; add a few spellings e.g. "Lapland","Lapimaa"
+      hint: "Think all the way back — our first proper getaway.",   // <-- EDIT (optional)
     },
     letterLine: "I'd climb to the edge of anywhere for a view like you.",
   },
@@ -119,9 +122,10 @@ window.STATIONS = [
       text: "Find the friendliest face in the park and feed them for me. No rush — the rest of the day can wait outside the gate.",
     },
     quiz: {
-      question: "Fill in the blank: “I love you to the ____ and back.”",
-      answers: ["moon"],
-      hint: "It comes out at night and the cow jumped over it. 🌙",
+      question: "Finish it: “I love you to the ____ and back.”",
+      choices: ["The moon 🌙", "Saaremaa 🐑", "The ferry and back ⛴️"],
+      answers: ["the moon", "the moon 🌙", "moon"],
+      hint: "A certain cow once jumped over it.",
     },
     letterLine: "You make me feel like a kid again.",
   },
@@ -142,9 +146,10 @@ window.STATIONS = [
       text: "From up here you can see for miles. Spot a bird, take a breath — and when you're ready, one little question stands between you and the next clue.",
     },
     quiz: {
-      question: "What's the English word for soft, wet, spongy land like this? (3 letters)",
-      answers: ["bog"],
-      hint: "It rhymes with dog.",
+      question: "From the top of the tower, what's the best thing in sight?",
+      choices: ["The birds 🐦", "The endless reeds 🌾", "You, obviously 💛"],
+      answers: ["you obviously", "you, obviously 💛", "you"],
+      hint: "Look at who's next to you, not out at the bog.",
     },
     letterLine: "Even from the highest tower, you're still the best thing in sight.",
   },
@@ -165,9 +170,10 @@ window.STATIONS = [
       text: "Helmets on, picnic packed. From here a sandy trail runs about five kilometres across the cape — woods, dunes, and not another soul. Follow it north toward the water. (Soft sand near the end? We walk the bikes and laugh about it.)",
     },
     quiz: {
-      question: "We brought two of these in the car for today — what are they?",
-      answers: ["bikes", "bicycles", "bike", "bicycle"],
-      hint: "You're about to ride one across a whole cape.",
+      // PERSONAL inside-joke ② — keep the question or change it, but PUT THE ANSWER below.
+      question: "How many countries have we explored together so far?",
+      answers: ["CHANGE-ME"],   // <-- EDIT: the number, e.g. "7" and "seven"
+      hint: "Count the magnets on our fridge.",   // <-- EDIT (optional)
     },
     letterLine: "Side by side, at our own pace — that's my favourite way to go anywhere.",
   },

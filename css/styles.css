@@ -214,6 +214,20 @@ button { font-family: inherit; }
 .code-field input.wrong { border-color: var(--rose-deep); animation: shake .4s; }
 @keyframes shake { 10%,90%{transform:translateX(-1px)} 30%,70%{transform:translateX(-5px)} 50%{transform:translateX(5px)} }
 
+/* multiple-choice quiz options */
+.choices { display: flex; flex-direction: column; gap: 9px; margin: 2px 0 12px; }
+.choice {
+  width: 100%; min-height: 52px; padding: 0 16px;
+  border: 1.5px solid var(--line); border-radius: var(--r-md);
+  background: var(--card-solid); color: var(--ink);
+  font-size: 16px; font-weight: 600; text-align: left; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform .12s ease, border-color .2s ease, background .2s ease;
+}
+.choice:active { transform: scale(.985); }
+.choice.wrong { border-color: var(--rose-deep); animation: shake .4s; }
+.choice.correct { border-color: var(--ok); background: rgba(42,157,143,.12); }
+
 /* ---------- overlay (reveals + finale) ---------- */
 .overlay {
   position: fixed; inset: 0; z-index: 20;

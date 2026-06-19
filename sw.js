@@ -2,8 +2,8 @@
    Lets the app open and run even when mobile signal drops on the islands.
    Map tiles she has already seen are cached too; brand-new areas still
    need a little signal, but the quest logic never depends on the network. */
-const SHELL = "themap-shell-v1";
-const TILES = "themap-tiles-v1";
+const SHELL = "themap-shell-v2";
+const TILES = "themap-tiles-v2";
 const ASSETS = [
   "./", "index.html",
   "css/styles.css", "js/journey.js", "js/app.js",
@@ -28,16 +28,15 @@ self.addEventListener("fetch", (e) => {
   if (e.request.method !== "GET") return;
   const url = new URL(e.request.url);
 
-  // Same-origin app shell: cache-first, fall back to cached index.html.
+  // Same-origin app shell: network-first (always fresh when online),
+  // fall back to cache only when offline. Avoids serving stale content.
   if (url.origin === location.origin) {
     e.respondWith(
-      caches.match(e.request).then((hit) =>
-        hit || fetch(e.request).then((resp) => {
-          const copy = resp.clone();
-          caches.open(SHELL).then((c) => c.put(e.request, copy));
-          return resp;
-        }).catch(() => caches.match("index.html"))
-      )
+      fetch(e.request).then((resp) => {
+        const copy = resp.clone();
+        caches.open(SHELL).then((c) => c.put(e.request, copy));
+        return resp;
+      }).catch(() => caches.match(e.request).then((hit) => hit || caches.match("index.html")))
     );
     return;
   }

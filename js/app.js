@@ -13,6 +13,7 @@
 
   /* ---------- tiny helpers ---------- */
   function $(sel, root) { return (root || document).querySelector(sel); }
+  function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) {
     return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
   function el(html) { var t = document.createElement("template"); t.innerHTML = html.trim(); return t.content.firstChild; }
@@ -33,21 +34,28 @@
     return 2 * R * Math.asin(Math.min(1, Math.sqrt(x)));
   }
 
-  /* ---------- state ---------- */
+  /* ---------- state (localStorage + cookie backup) ---------- */
+  function setCookie(n, v, days) { try { var d = new Date(); d.setTime(d.getTime() + days * 864e5); document.cookie = n + "=" + encodeURIComponent(v) + ";expires=" + d.toUTCString() + ";path=/;SameSite=Lax"; } catch (e) {} }
+  function getCookie(n) { try { var m = document.cookie.match("(?:^|; )" + n + "=([^;]*)"); return m ? decodeURIComponent(m[1]) : null; } catch (e) { return null; } }
+  function freshState() { return { v: 2, done: {}, arrived: {}, times: {} }; }
   var state = loadState();
   function loadState() {
-    try {
-      var s = JSON.parse(localStorage.getItem(STORE_KEY));
-      if (s && s.done) return s;
-    } catch (e) {}
-    return { v: 2, done: {}, arrived: {} };
+    var raw = null;
+    try { raw = localStorage.getItem(STORE_KEY); } catch (e) {}
+    if (!raw) raw = getCookie(STORE_KEY);
+    try { var s = JSON.parse(raw); if (s && s.done) { s.arrived = s.arrived || {}; s.times = s.times || {}; return s; } } catch (e) {}
+    return freshState();
   }
-  function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {} }
+  function save() {
+    var s = JSON.stringify(state);
+    try { localStorage.setItem(STORE_KEY, s); } catch (e) {}
+    setCookie(STORE_KEY, s, 21);
+  }
 
   // dev shortcuts: ?reset=1 clears progress; ?jump=<id> marks prior stations done
   (function devParams() {
     var q = new URLSearchParams(location.search);
-    if (q.get("reset")) { state = { v: 2, done: {}, arrived: {} }; save(); }
+    if (q.get("reset")) { state = freshState(); save(); }
     var jump = q.get("jump");
     if (jump) {
       for (var i = 0; i < STATIONS.length; i++) {
@@ -102,7 +110,8 @@
       } else if (isActive && s.pin === "zone") {
         L.circle([s.lat, s.lon], { radius: s.radius, color: "#d6577a", weight: 1.5, opacity: .6, fillColor: "#d6577a", fillOpacity: .12 }).addTo(markerGroup);
       } else {
-        L.marker([s.lat, s.lon], { icon: pinIcon("✓", "done"), keyboard: false }).addTo(markerGroup);
+        L.marker([s.lat, s.lon], { icon: pinIcon(s.tile ? s.tile.emoji : "✓", "done") })
+          .on("click", function () { showMemory(s); }).addTo(markerGroup);
       }
     });
     if (pts.length > 1) {
@@ -195,11 +204,18 @@
     if (q) {
       html +=
         '<p class="sub">When you\'re ready, answer this to unlock the next clue:</p>' +
-        '<p style="font-weight:700;margin-bottom:10px">' + esc(q.question) + "</p>" +
-        '<div class="code-field"><input id="qin" inputmode="text" autocomplete="off" placeholder="your answer" aria-label="answer" /></div>' +
+        '<p style="font-weight:700;margin-bottom:10px">' + esc(q.question) + "</p>";
+      if (q.choices && q.choices.length) {
+        html += '<div class="choices" id="qchoices">' +
+          q.choices.map(function (c, i) { return '<button class="choice" data-i="' + i + '">' + esc(c) + "</button>"; }).join("") +
+          "</div>";
+      } else {
+        html += '<div class="code-field"><input id="qin" inputmode="text" autocomplete="off" placeholder="your answer" aria-label="answer" /></div>';
+      }
+      html +=
         '<div id="qhint"></div>' +
         '<div class="btn-row">' +
-          '<button class="btn btn-primary" id="qok">Unlock the next clue</button>' +
+          (q.choices && q.choices.length ? "" : '<button class="btn btn-primary" id="qok">Unlock the next clue</button>') +
           '<button class="btn btn-ghost" id="qskip" hidden>Skip this one ›</button>' +
         "</div>";
     } else {
@@ -207,20 +223,34 @@
     }
     setSheet(html);
     if (!q) { $("#qok").onclick = function () { complete(s); }; return; }
-    var input = $("#qin");
-    $("#qok").onclick = function () { tryQuiz(s, input.value); };
-    input.addEventListener("keydown", function (e) { if (e.key === "Enter") tryQuiz(s, input.value); });
-    input.focus();
+    if (q.choices && q.choices.length) {
+      $$("#qchoices .choice").forEach(function (b) {
+        b.addEventListener("click", function () { tryQuizChoice(s, q.choices[+b.getAttribute("data-i")], b); });
+      });
+    } else {
+      var input = $("#qin");
+      $("#qok").onclick = function () { tryQuizText(s, input.value); };
+      input.addEventListener("keydown", function (e) { if (e.key === "Enter") tryQuizText(s, input.value); });
+      input.focus();
+    }
   }
 
-  function tryQuiz(s, val) {
-    var answers = (s.quiz.answers || []).map(normalize);
-    if (answers.indexOf(normalize(val)) !== -1) { complete(s); return; }
+  function answerOK(s, val) { return (s.quiz.answers || []).map(normalize).indexOf(normalize(val)) !== -1; }
+  function quizMiss(s) {
     quizTries++;
-    var input = $("#qin"); input.classList.remove("wrong"); void input.offsetWidth; input.classList.add("wrong");
     var hint = $("#qhint");
     if (quizTries >= 2 && s.quiz.hint) hint.innerHTML = '<p class="sub">Hint: ' + esc(s.quiz.hint) + "</p>";
     if (quizTries >= 3) { var sk = $("#qskip"); if (sk) { sk.hidden = false; sk.onclick = function () { complete(s); }; } }
+  }
+  function tryQuizText(s, val) {
+    if (answerOK(s, val)) { complete(s); return; }
+    var input = $("#qin"); input.classList.remove("wrong"); void input.offsetWidth; input.classList.add("wrong");
+    quizMiss(s);
+  }
+  function tryQuizChoice(s, val, btn) {
+    if (answerOK(s, val)) { btn.classList.add("correct"); setTimeout(function () { complete(s); }, 220); return; }
+    btn.classList.remove("wrong"); void btn.offsetWidth; btn.classList.add("wrong");
+    quizMiss(s);
   }
 
   function sheetCode(s) {
@@ -259,6 +289,21 @@
 
   function tileStyle(s) {
     return s.tile && s.tile.photo ? 'background-image:url(' + esc(s.tile.photo) + ')' : 'background:' + (s.tile ? s.tile.gradient : "#ccc");
+  }
+
+  function showMemory(s) {
+    var emoji = s.tile && s.tile.photo ? "" : (s.tile ? s.tile.emoji : "💛");
+    var html =
+      '<div class="card" role="dialog" aria-modal="true">' +
+        '<p class="eyebrow">A memory</p>' +
+        '<div class="tile ' + (s.tile && s.tile.photo ? "photo" : "") + '" style="' + tileStyle(s) + '">' + emoji + "</div>" +
+        "<h1>" + esc(s.name) + "</h1>" +
+        (s.arrive ? "<p>" + esc(s.arrive.text) + "</p>" : "") +
+        (s.letterLine ? '<p class="fragment">“' + esc(s.letterLine) + '”</p>' : "") +
+        '<button class="btn btn-primary" id="memclose">Close</button>' +
+      "</div>";
+    showOverlay(html);
+    $("#memclose").onclick = hideOverlay;
   }
 
   function showReveal(s) {
