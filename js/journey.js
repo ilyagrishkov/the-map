@@ -18,7 +18,7 @@ window.CONFIG = {
      She types it to unlock the journey. Keep it personal, and DO NOT
      write the destination on the note — let the app reveal it. */
   bottleCodeword: "SAIL",        // <-- EDIT  (case-insensitive)
-  codewordAccept: ["SAILAWAY"],  // also accepted — the poem's acrostic spells SAIL AWAY (spaces/case ignored)
+  codewordAccept: ["SAILS", "SAILING"],  // also accepted — variations of the answer (case/spaces ignored)
 
   /* Map look: "voyager" (soft colour) | "positron" (light & minimal) | "osm" */
   mapStyle: "voyager",
@@ -81,8 +81,8 @@ window.STATIONS = [
       photo: "assets/photos/box.jpg",   // <-- a close-up of the hiding spot (drop a JPG named box.jpg into assets/photos/)
     },
     code: true,
-    codePrompt: "The poem in the letter hides a secret. Read it well, then type what it spells:",
-    codeHint: "Read me downward, not across — the start of every line is keeping a secret. 💛",   // <-- shown if she taps “Need a hint?”
+    codePrompt: "The poem in the letter describes one word but never says it. Read it, then name it:",
+    codeHint: "What does the wind fill to carry a boat out to sea? One small word. 💛",   // <-- shown if she taps “Need a hint?”
     reveal: {
       title: "This is only the beginning… ✨",
       text: "But the map isn't done with you yet. Keep that letter close, pack a small bag and your bike, and get a good night's sleep — because tomorrow it wakes up again, and the real adventure begins. I'll be guiding you the whole way, one secret at a time. — me 💛",
