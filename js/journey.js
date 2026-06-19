@@ -73,7 +73,7 @@ window.STATIONS = [
       text: "Find the big grey rock near the water, take ten steps toward the sea, and dig a little in the sand. Something is waiting for you in a bottle.",   // <-- EDIT to match where you bury it
     },
     code: true,
-    codePrompt: "Type the word written on the note inside the bottle:",
+    codePrompt: "Type the word hidden on the note inside the bottle:",
     reveal: {
       title: "We're going on an adventure ✨",
       text: "Pack a bag and your bike, my love — tomorrow we sail to the islands. Saaremaa and Muhu are waiting: hidden cliffs, a whole park of animals to pet, a tower over the bog, and a wild cape we ride out to on two bikes. This little map will guide us, one secret at a time. Sleep well. Tomorrow, the real adventure begins. — me 💛",
@@ -91,7 +91,7 @@ window.STATIONS = [
     tile: {
       emoji: "🌊",
       gradient: "linear-gradient(135deg,#2a9d8f,#7fd8c8)",
-      // photo: "assets/photos/uugu.jpg",   // <-- add a JPG named uugu.jpg in assets/photos/, then delete the //
+      photo: "assets/photos/climb_anywhere.jpg",
     },
     clue: {
       title: "Across the water, up to a cliff",
@@ -104,7 +104,7 @@ window.STATIONS = [
     quiz: {
       // PERSONAL inside-joke ① — keep the question or change it, but PUT HER ANSWER below.
       question: "Where did we go on our very first trip together?",
-      answers: ["Helsinki", "Italy", "Switzerland", "Pärnu"],   // <-- EDIT: the place; add a few spellings e.g. "Lapland","Lapimaa"
+      answers: ["Helsinki", "Rimini", "Grindelwald", "Pärnu"],   // <-- EDIT: the place; add a few spellings e.g. "Lapland","Lapimaa"
       hint: "Think all the way back — our first proper getaway.",   // <-- EDIT (optional)
     },
     letterLine: "I'd climb to the edge of anywhere for a view like you.",

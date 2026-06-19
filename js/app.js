@@ -385,12 +385,17 @@
     if (haversine(lastFix.lat, lastFix.lon, a.lat, a.lon) <= a.radius) arrive(a);
   }
 
+  function preloadPhotos() {
+    STATIONS.forEach(function (s) { if (s.tile && s.tile.photo) { var im = new Image(); im.src = s.tile.photo; } });
+  }
+
   /* ---------- boot ---------- */
   function boot() {
     if (!STATIONS.length) { setSheet("<p>No journey configured.</p>"); return; }
     initMap();
     renderProgress();
     renderMap();
+    preloadPhotos();
     var a = activeStation();
     if (!a) { showFinale(STATIONS[STATIONS.length - 1]); return; }
     if (state.arrived[a.id]) { // resumed mid-stop
