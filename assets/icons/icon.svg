@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="A heart on a map pin">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff8fab"/>
+      <stop offset="1" stop-color="#d6577a"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#g)"/>
+  <path fill="#fff" d="M256 392c-12 0-23-5-31-14-44-46-101-92-101-159 0-44 33-79 76-79 24 0 46 11 56 30 10-19 32-30 56-30 43 0 76 35 76 79 0 67-57 113-101 159-8 9-19 14-31 14z"/>
+  <circle cx="256" cy="250" r="10" fill="#d6577a"/>
+</svg>

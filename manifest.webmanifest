@@ -1,0 +1,13 @@
+{
+  "name": "The Map — for you",
+  "short_name": "The Map",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#141019",
+  "theme_color": "#d6577a",
+  "icons": [
+    { "src": "assets/icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
