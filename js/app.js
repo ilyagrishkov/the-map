@@ -186,7 +186,7 @@
   }
 
   /* ---------- sheet rendering ---------- */
-  var lastFix = null, geoReady = false, quizTries = 0;
+  var lastFix = null, geoReady = false, geoState = "idle", geoUserAsked = false, quizTries = 0;
 
   function sheetClue(s) {
     var future = s.phase === "today" ? "Today" : "Next stop";
@@ -218,15 +218,24 @@
 
   function renderDistance(s) {
     var row = $("#distrow"); if (!row) return;
-    if (!geoReady) {
-      row.innerHTML = '<div class="banner">📍 Turn on location and tap “I\'m here” when you arrive — nothing here will get in the way of our day.</div>';
+    if (geoState === "granted" && lastFix) {
+      var d = haversine(lastFix.lat, lastFix.lon, s.lat, s.lon);
+      var near = d <= s.radius;
+      row.innerHTML = '<span class="dist ' + (near ? "near" : "") + '"><span class="dot"></span>' +
+        (near ? "You're here 💛" : fmtDist(d) + " away") + "</span>";
       return;
     }
-    if (!lastFix) { row.innerHTML = ""; return; }
-    var d = haversine(lastFix.lat, lastFix.lon, s.lat, s.lon);
-    var near = d <= s.radius;
-    row.innerHTML = '<span class="dist ' + (near ? "near" : "") + '"><span class="dot"></span>' +
-      (near ? "You're here 💛" : fmtDist(d) + " away") + "</span>";
+    if (geoState === "denied") {
+      row.innerHTML = '<div class="banner">📍 Location is off for this site. On iPhone: Settings → Privacy &amp; Security → Location Services (on) → Safari Websites → “While Using”, then reload. You can still tap “I\'m here”.</div>';
+      return;
+    }
+    if (geoState === "unsupported") {
+      row.innerHTML = '<div class="banner">📍 This browser can\'t read your location — just tap “I\'m here” when you arrive.</div>';
+      return;
+    }
+    var label = geoState === "prompting" ? "Locating…" : "📍 Enable location";
+    row.innerHTML = '<button type="button" class="btn btn-ghost" id="geo-enable" style="min-height:46px;border:1px solid var(--line)">' + label + "</button>";
+    var b = $("#geo-enable"); if (b) b.onclick = function () { requestLocation(); };
   }
 
   function onImHere(s) {
@@ -240,8 +249,24 @@
       $("#here").textContent = "Check again";
       return;
     }
-    // no GPS fix available — never block
-    arrive(s);
+    // No fix yet — this tap is a user gesture, so request location now (most reliable on iOS).
+    if (navigator.geolocation) {
+      geoUserAsked = true;
+      var here = $("#here"); if (here) here.textContent = "Locating…";
+      navigator.geolocation.getCurrentPosition(function (pos) {
+        gotPosition(pos);
+        if (here) here.textContent = "I'm here";
+        onImHere(s);
+      }, function (err) {
+        geoError(err);
+        if (here) here.textContent = "I'm here";
+        var far = $("#far");
+        if (far) { far.hidden = false; far.textContent = "Couldn't get your location — reveal this stop anyway ›"; far.onclick = function () { arrive(s); }; }
+      }, GEO_OPTS);
+      ensureWatch();
+      return;
+    }
+    arrive(s); // no geolocation API at all — never block
   }
 
   function arrive(s) {
@@ -452,17 +477,36 @@
   }
 
   /* ---------- geolocation ---------- */
-  function startGeo() {
-    if (!navigator.geolocation) { geoReady = false; refreshDistance(); return; }
-    navigator.geolocation.watchPosition(function (pos) {
-      geoReady = true;
-      lastFix = { lat: pos.coords.latitude, lon: pos.coords.longitude, acc: pos.coords.accuracy };
+  var GEO_OPTS = { enableHighAccuracy: true, maximumAge: 10000, timeout: 25000 };
+  var watchId = null;
+  function gotPosition(pos) {
+    geoReady = true; geoState = "granted";
+    lastFix = { lat: pos.coords.latitude, lon: pos.coords.longitude, acc: pos.coords.accuracy };
+    if (map) {
       if (meMarker) meMarker.setLatLng([lastFix.lat, lastFix.lon]);
       else meMarker = L.marker([lastFix.lat, lastFix.lon], { icon: L.divIcon({ className: "", html: '<div class="me-dot"></div>', iconSize: [18, 18], iconAnchor: [9, 9] }), keyboard: false, interactive: false }).addTo(map);
-      refreshDistance();
-      autoUnlock();
-    }, function () { geoReady = false; refreshDistance(); },
-    { enableHighAccuracy: true, maximumAge: 5000, timeout: 20000 });
+    }
+    refreshDistance(); autoUnlock();
+  }
+  function geoError(err) {
+    if (err && err.code === 1) geoState = geoUserAsked ? "denied" : "idle";
+    else geoState = "error";
+    geoReady = false; refreshDistance();
+  }
+  function ensureWatch() {
+    if (watchId != null || !navigator.geolocation) return;
+    try { watchId = navigator.geolocation.watchPosition(gotPosition, geoError, GEO_OPTS); } catch (e) {}
+  }
+  function requestLocation() {
+    if (!navigator.geolocation) { geoState = "unsupported"; geoReady = false; refreshDistance(); return; }
+    geoUserAsked = true; geoState = "prompting"; refreshDistance();
+    navigator.geolocation.getCurrentPosition(gotPosition, geoError, GEO_OPTS);
+    ensureWatch();
+  }
+  function startGeo() {
+    if (!navigator.geolocation) { geoState = "unsupported"; geoReady = false; refreshDistance(); return; }
+    navigator.geolocation.getCurrentPosition(gotPosition, geoError, GEO_OPTS);
+    ensureWatch();
   }
   function refreshDistance() {
     var a = activeStation();
