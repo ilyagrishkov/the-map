@@ -163,6 +163,11 @@ button { font-family: inherit; }
   box-shadow: var(--shadow);
   transform: translateY(0);
   transition: transform .45s cubic-bezier(.2,.8,.2,1);
+  max-height: calc(100vh - env(safe-area-inset-top) - 64px);
+  max-height: calc(100dvh - env(safe-area-inset-top) - 64px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 .sheet::before {
   content: ""; display: block;
@@ -322,7 +327,7 @@ button { font-family: inherit; }
 
 /* close-up "find the box" photo on the Stroomi screen */
 .spot-photo {
-  width: 100%; height: auto; max-height: 46vh; object-fit: contain;
+  width: 100%; height: auto; max-height: 38vh; object-fit: contain;
   border-radius: 16px; margin: 2px 0 14px;
   background: var(--bg);
   box-shadow: var(--shadow); display: block;
