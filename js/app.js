@@ -95,6 +95,7 @@
     var a = activeStation() || STATIONS[STATIONS.length - 1];
     map = L.map("map", { zoomControl: false, attributionControl: true, keyboard: false }).setView([a.lat, a.lon], 12);
     L.control.zoom({ position: "topright" }).addTo(map);
+    addNavControl();
     var t = TILES[CONFIG.mapStyle] || TILES.voyager;
     L.tileLayer(t.url, { subdomains: t.sub, maxZoom: t.max, attribution: t.attr, detectRetina: false }).addTo(map);
     markerGroup = L.layerGroup().addTo(map);
@@ -102,6 +103,30 @@
   function pinIcon(emoji, cls) {
     return L.divIcon({ className: "", html: '<div class="pin ' + cls + '"><span>' + emoji + "</span></div>",
       iconSize: [38, 38], iconAnchor: [19, 19] });
+  }
+
+  var LOCATE_SVG = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>';
+  var TARGET_SVG = '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2C8.1 2 5 5.1 5 9c0 5 7 13 7 13s7-8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1112 6.5a2.5 2.5 0 010 5z"/></svg>';
+  function addNavControl() {
+    var nav = L.control({ position: "topright" });
+    nav.onAdd = function () {
+      var c = L.DomUtil.create("div", "mapnav");
+      c.innerHTML =
+        '<button type="button" id="nav-me" title="Center on me" aria-label="Center the map on my location">' + LOCATE_SVG + "</button>" +
+        '<button type="button" id="nav-target" title="Center on the next stop" aria-label="Center the map on the next stop">' + TARGET_SVG + "</button>";
+      L.DomEvent.disableClickPropagation(c);
+      return c;
+    };
+    nav.addTo(map);
+    var me = $("#nav-me"), tg = $("#nav-target");
+    if (me) me.addEventListener("click", function () {
+      if (lastFix) map.setView([lastFix.lat, lastFix.lon], Math.max(map.getZoom(), 15), { animate: true });
+      else toast("Turn on location to use this 💛");
+    });
+    if (tg) tg.addEventListener("click", function () {
+      var a = activeStation();
+      if (a && !inStandby) map.setView([a.lat, a.lon], Math.max(map.getZoom(), 14), { animate: true });
+    });
   }
   function renderMap() {
     if (!map) return;
@@ -397,6 +422,11 @@
   function setSheet(html) { $("#sheet").innerHTML = html; }
   function showOverlay(html) { var o = $("#overlay"); o.innerHTML = html; o.hidden = false; }
   function hideOverlay() { var o = $("#overlay"); o.hidden = true; o.innerHTML = ""; }
+  function toast(msg) {
+    var t = $("#toast"); if (!t) return;
+    t.textContent = msg; t.hidden = false;
+    clearTimeout(toast._t); toast._t = setTimeout(function () { t.hidden = true; }, 2200);
+  }
 
   /* ---------- geolocation ---------- */
   function startGeo() {
