@@ -409,6 +409,14 @@
   else boot();
 
   if ("serviceWorker" in navigator) {
-    window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () {}); });
+    var hadController = !!navigator.serviceWorker.controller;
+    var swRefreshed = false;
+    navigator.serviceWorker.addEventListener("controllerchange", function () {
+      if (!hadController || swRefreshed) return;   // first install: no reload; on update: reload once for fresh content
+      swRefreshed = true; location.reload();
+    });
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("sw.js", { updateViaCache: "none" }).catch(function () {});
+    });
   }
 })();
