@@ -206,7 +206,7 @@ window.STATIONS = [
     tile: {
       emoji: "🗼",
       gradient: "linear-gradient(135deg,#e7677e,#ffc187)",
-      // photo: "assets/photos/finale.jpg",   // <-- add a JPG named finale.jpg in assets/photos/, then delete the //
+      photo: "assets/photos/finale.jpg",
     },
     clue: {
       title: "Ride to the leaning lighthouse",
