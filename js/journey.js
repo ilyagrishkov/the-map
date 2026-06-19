@@ -120,7 +120,7 @@ window.STATIONS = [
     tile: {
       emoji: "🐪",
       gradient: "linear-gradient(135deg,#e9a23b,#ffd58a)",
-      // photo: "assets/photos/zoo.jpg",   // <-- add a JPG named zoo.jpg in assets/photos/, then delete the //
+      photo: "assets/photos/zoo.jpg",
     },
     clue: {
       title: "A promise kept",
