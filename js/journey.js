@@ -11,8 +11,8 @@
  * ===================================================================== */
 
 window.CONFIG = {
-  herName: "my love",            // <-- EDIT  her name / a pet name
-  fromName: "me",                // <-- EDIT  how you sign off
+  herName: "Diana ❤️",            // <-- EDIT  her name / a pet name
+  fromName: "Ilya",                // <-- EDIT  how you sign off
 
   /* The secret word you write on the note INSIDE the buried bottle.
      She types it to unlock the journey. Keep it personal, and DO NOT
@@ -66,7 +66,7 @@ window.STATIONS = [
     tile: { emoji: "🍾", gradient: "linear-gradient(135deg,#7b8cff,#c8a2ff)" },
     clue: {
       title: "Our story starts by the sea",
-      text: "Good morning, my love. Today there is only one place on this whole map. Go to where the city meets the water — our Stroomi beach — and walk down onto the sand. When you're close, I'll show you exactly where to look. 💛",
+      text: "Good morning, my love. Today there is only one place on this whole map. Go to where the city meets the water — Stroomi beach — and walk down onto the sand. When you're close, I'll show you exactly where to look. 💛",
     },
     arrive: {
       title: "You're here — now dig 🏖️",
@@ -104,7 +104,7 @@ window.STATIONS = [
     quiz: {
       // PERSONAL inside-joke ① — keep the question or change it, but PUT HER ANSWER below.
       question: "Where did we go on our very first trip together?",
-      answers: ["CHANGE-ME"],   // <-- EDIT: the place; add a few spellings e.g. "Lapland","Lapimaa"
+      answers: ["Helsinki", "Italy", "Switzerland", "Pärnu"],   // <-- EDIT: the place; add a few spellings e.g. "Lapland","Lapimaa"
       hint: "Think all the way back — our first proper getaway.",   // <-- EDIT (optional)
     },
     letterLine: "I'd climb to the edge of anywhere for a view like you.",
@@ -187,9 +187,9 @@ window.STATIONS = [
     },
     quiz: {
       // PERSONAL inside-joke ② — keep the question or change it, but PUT THE ANSWER below.
-      question: "How many countries have we explored together so far?",
-      answers: ["CHANGE-ME"],   // <-- EDIT: the number, e.g. "7" and "seven"
-      hint: "Count the magnets on our fridge.",   // <-- EDIT (optional)
+      question: "How many countries have we explored together so far (incl. Estonia)?",
+      answers: ["9, 15, 18, 21"],   // <-- EDIT: the number, e.g. "7" and "seven"
+      hint: "Let's go one by one together with Google Maps",   // <-- EDIT (optional)
     },
     letterLine: "Side by side, at our own pace — that's my favourite way to go anywhere.",
   },

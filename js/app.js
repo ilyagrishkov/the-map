@@ -239,8 +239,8 @@
   function quizMiss(s) {
     quizTries++;
     var hint = $("#qhint");
-    if (quizTries >= 2 && s.quiz.hint) hint.innerHTML = '<p class="sub">Hint: ' + esc(s.quiz.hint) + "</p>";
-    if (quizTries >= 3) { var sk = $("#qskip"); if (sk) { sk.hidden = false; sk.onclick = function () { complete(s); }; } }
+    if (quizTries >= 1 && s.quiz.hint) hint.innerHTML = '<p class="sub">Hint: ' + esc(s.quiz.hint) + "</p>";
+    if (quizTries >= 2) { var sk = $("#qskip"); if (sk) { sk.hidden = false; sk.onclick = function () { complete(s); }; } }
   }
   function tryQuizText(s, val) {
     if (answerOK(s, val)) { complete(s); return; }
