@@ -210,7 +210,7 @@
           q.choices.map(function (c, i) { return '<button class="choice" data-i="' + i + '">' + esc(c) + "</button>"; }).join("") +
           "</div>";
       } else {
-        html += '<div class="code-field"><input id="qin" inputmode="text" autocomplete="off" placeholder="your answer" aria-label="answer" /></div>';
+        html += '<div class="code-field"><input id="qin" inputmode="text" autocomplete="off" placeholder="' + esc(q.open ? (q.placeholder || "write anything…") : "your answer") + '" aria-label="answer" /></div>';
       }
       html +=
         '<div id="qhint"></div>' +
@@ -229,8 +229,9 @@
       });
     } else {
       var input = $("#qin");
-      $("#qok").onclick = function () { tryQuizText(s, input.value); };
-      input.addEventListener("keydown", function (e) { if (e.key === "Enter") tryQuizText(s, input.value); });
+      var submit = function () { (q.open ? tryQuizOpen : tryQuizText)(s, input.value); };
+      $("#qok").onclick = submit;
+      input.addEventListener("keydown", function (e) { if (e.key === "Enter") submit(); });
       input.focus();
     }
   }
@@ -251,6 +252,10 @@
     if (answerOK(s, val)) { btn.classList.add("correct"); setTimeout(function () { complete(s); }, 220); return; }
     btn.classList.remove("wrong"); void btn.offsetWidth; btn.classList.add("wrong");
     quizMiss(s);
+  }
+  function tryQuizOpen(s, val) {
+    if (!String(val || "").trim()) { $("#qhint").innerHTML = '<p class="sub">Write anything you like 💛</p>'; return; }
+    complete(s);
   }
 
   function sheetCode(s) {
@@ -314,6 +319,7 @@
         '<p class="eyebrow">A memory unlocked</p>' +
         '<div class="tile" style="' + tileBg(s) + '">' + tileInner(s) + "</div>" +
         "<h1>" + esc(s.name) + "</h1>" +
+        (s.quiz && s.quiz.response ? "<p>" + esc(s.quiz.response) + "</p>" : "") +
         (s.letterLine ? '<p class="fragment">“' + esc(s.letterLine) + '”</p>' : "") +
         '<p class="sub">Added to your letter & the mosaic.</p>' +
         '<button class="btn btn-primary" id="cont">Reveal the next stop ›</button>' +

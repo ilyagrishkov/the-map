@@ -121,8 +121,7 @@ window.STATIONS = [
       emoji: "🐪",
       gradient: "linear-gradient(135deg,#e9a23b,#ffd58a)",
       photo: "assets/photos/zoo.jpg",
-    },
-    clue: {
+    },    clue: {
       title: "A promise kept",
       text: "Over the causeway to Saaremaa and straight to the place I promised you: a whole park of animals — camels, alpacas, lemurs, the softest rabbits — that you actually get to feed and pet. Let's go be kids for a while. (Lunch right after — I'm already starving.)",
     },
@@ -131,10 +130,10 @@ window.STATIONS = [
       text: "Find the friendliest face in the park and feed them for me. No rush — the rest of the day can wait outside the gate.",
     },
     quiz: {
-      question: "Finish it: “I love you to the ____ and back.”",
-      choices: ["The moon 🌙", "Saaremaa 🐑", "The ferry and back ⛴️"],
-      answers: ["the moon", "the moon 🌙", "moon"],
-      hint: "A certain cow once jumped over it.",
+      question: "What's the most kid-at-heart thing we love doing together?",
+      open: true,
+      placeholder: "write anything…",
+      response: "Yes — and honestly, it doesn't matter what you wrote. I love doing every one of those things with you. 💛",
     },
     letterLine: "You make me feel like a kid again.",
   },
@@ -176,7 +175,7 @@ window.STATIONS = [
     tile: {
       emoji: "🚲",
       gradient: "linear-gradient(135deg,#2e8b9e,#86d0c4)",
-      // photo: "assets/photos/ride.jpg",   // <-- add a JPG named ride.jpg in assets/photos/, then delete the //
+      photo: "assets/photos/bike.jpg",
     },
     clue: {
       title: "Now — the bikes",
