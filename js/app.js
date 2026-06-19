@@ -79,7 +79,7 @@
   var inStandby = false;
   var firstTomorrowId = (function () { for (var i = 0; i < STATIONS.length; i++) if (STATIONS[i].phase === "tomorrow") return STATIONS[i].id; return null; })();
   function sameDayAsStroomi() { var t = state.times && state.times.stroomi; return !!t && new Date(t).toDateString() === new Date().toDateString(); }
-  function standbyNeeded(a) { return !!a && a.id === firstTomorrowId && !jumpUsed && sameDayAsStroomi(); }
+  function standbyNeeded(a) { return !!a && a.id === firstTomorrowId && !jumpUsed && !state.proceeded && sameDayAsStroomi(); }
 
   /* ---------- map ---------- */
   var TILES = {
@@ -213,7 +213,7 @@
       "<p>" + esc(sb.text) + "</p>" +
       '<div class="btn-row"><button class="btn btn-ghost" id="sbgo">Already on our way? Continue ›</button></div>';
     setSheet(html);
-    $("#sbgo").onclick = function () { inStandby = false; lastFitKey = ""; renderMap(); sheetClue(a); };
+    $("#sbgo").onclick = function () { state.proceeded = true; save(); inStandby = false; lastFitKey = ""; renderMap(); sheetClue(a); };
   }
 
   function renderDistance(s) {
