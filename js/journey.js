@@ -88,7 +88,11 @@ window.STATIONS = [
     lat: 58.6711133, lon: 23.2404088,
     radius: 250,
     pin: "pin",
-    tile: { emoji: "🌊", gradient: "linear-gradient(135deg,#2a9d8f,#7fd8c8)" },
+    tile: {
+      emoji: "🌊",
+      gradient: "linear-gradient(135deg,#2a9d8f,#7fd8c8)",
+      // photo: "assets/photos/uugu.jpg",   // <-- add a JPG named uugu.jpg in assets/photos/, then delete the //
+    },
     clue: {
       title: "Across the water, up to a cliff",
       text: "First we sail across to Muhu. Then we make for Üügu — a low limestone cliff most people drive straight past, where the sea turns to glass in the afternoon light. Meet me at the edge.",
@@ -112,7 +116,11 @@ window.STATIONS = [
     lat: 58.5626266, lon: 23.0285236,
     radius: 300,
     pin: "pin",
-    tile: { emoji: "🐪", gradient: "linear-gradient(135deg,#e9a23b,#ffd58a)" },
+    tile: {
+      emoji: "🐪",
+      gradient: "linear-gradient(135deg,#e9a23b,#ffd58a)",
+      // photo: "assets/photos/zoo.jpg",   // <-- add a JPG named zoo.jpg in assets/photos/, then delete the //
+    },
     clue: {
       title: "A promise kept",
       text: "Over the causeway to Saaremaa and straight to the place I promised you: a whole park of animals — camels, alpacas, lemurs, the softest rabbits — that you actually get to feed and pet. Let's go be kids for a while. (Lunch right after — I'm already starving.)",
@@ -136,7 +144,11 @@ window.STATIONS = [
     lat: 58.2425752, lon: 22.4250126,   // <-- EDIT if the tower pin is off; long-press it in Google Maps
     radius: 250,
     pin: "pin",
-    tile: { emoji: "🌾", gradient: "linear-gradient(135deg,#52a447,#a8d672)" },
+    tile: {
+      emoji: "🌾",
+      gradient: "linear-gradient(135deg,#52a447,#a8d672)",
+      // photo: "assets/photos/bog.jpg",   // <-- add a JPG named bog.jpg in assets/photos/, then delete the //
+    },
     clue: {
       title: "Above the bog",
       text: "Now something quieter: a wooden tower over the Mullutu-Loode wetlands. We follow the boardwalk out across the bog and climb up — reeds, water, birds, and almost no one else. Bring your eyes and your quiet voice.",
@@ -160,7 +172,11 @@ window.STATIONS = [
     lat: 58.4737700, lon: 21.9022600,   // Harilaid trailhead car park — no cars beyond the barrier
     radius: 300,
     pin: "pin",
-    tile: { emoji: "🚲", gradient: "linear-gradient(135deg,#2e8b9e,#86d0c4)" },
+    tile: {
+      emoji: "🚲",
+      gradient: "linear-gradient(135deg,#2e8b9e,#86d0c4)",
+      // photo: "assets/photos/ride.jpg",   // <-- add a JPG named ride.jpg in assets/photos/, then delete the //
+    },
     clue: {
       title: "Now — the bikes",
       text: "For the last stretch we drive out to the wild north-west, to the edge of Vilsandi park, and leave the car at the Harilaid barrier. No cars go past here — only us and the bikes. Grab the picnic: we're riding out to the sea.",
@@ -185,7 +201,11 @@ window.STATIONS = [
     radius: 500,
     pin: "pin",
     finale: true,
-    tile: { emoji: "🗼", gradient: "linear-gradient(135deg,#e7677e,#ffc187)" },
+    tile: {
+      emoji: "🗼",
+      gradient: "linear-gradient(135deg,#e7677e,#ffc187)",
+      // photo: "assets/photos/finale.jpg",   // <-- add a JPG named finale.jpg in assets/photos/, then delete the //
+    },
     clue: {
       title: "Ride to the leaning lighthouse",
       text: "Keep going until the trees give way to open dunes and you see it: a white lighthouse standing right out in the sea, leaning as if it's tired from all the waiting. That's Kiipsaare — the end of the map. Lay out the picnic. We made it.",

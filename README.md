@@ -27,9 +27,20 @@ to change:
 - **Move a pin:** long-press the exact spot in Google Maps, copy the two numbers into
   `lat:` and `lon:`. (Double-check the **bog tower** pin and your exact **bottle** spot.)
 
-**Add real photos to the mosaic (optional):** drop images into `assets/photos/` and add
-`photo: "assets/photos/yourfile.jpg"` to any station's `tile`. Without photos it uses pretty
-coloured tiles.
+**Photos for the mosaic (recommended):** the 5 tiles become a photo collage of *you two*
+that builds through the day. Put 5 photos in `assets/photos/` with these exact names, then
+delete the `//` in front of the matching `photo:` line in `js/journey.js` (or just ask me):
+
+| File | Stop | A memory that fits the vibe |
+|---|---|---|
+| `uugu.jpg`   | Üügu cliff    | a scenic view / lookout / your best travel shot |
+| `zoo.jpg`    | Saaremaa Zoo  | something silly & laughing, or with an animal/pet |
+| `bog.jpg`    | Bog tower     | a tender, quiet close-up of the two of you |
+| `ride.jpg`   | Harilaid ride | an adventure together — bikes, a hike, a road trip |
+| `finale.jpg` | Kiipsaare     | THE one — your most "us" photo (wedding / anniversary) |
+
+Use **JPG or PNG** (not iPhone HEIC). A missing or mistyped photo simply falls back to the
+emoji tile, so nothing breaks.
 
 ---
 

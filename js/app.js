@@ -287,16 +287,18 @@
     showReveal(s);
   }
 
-  function tileStyle(s) {
-    return s.tile && s.tile.photo ? 'background-image:url(' + esc(s.tile.photo) + ')' : 'background:' + (s.tile ? s.tile.gradient : "#ccc");
+  function tileBg(s) { return "background:" + (s.tile && s.tile.gradient ? s.tile.gradient : "#ccc"); }
+  function tileInner(s) {
+    var emoji = s.tile ? s.tile.emoji : "💛";
+    var img = s.tile && s.tile.photo ? '<img class="tile-img" src="' + esc(s.tile.photo) + '" alt="" onerror="this.remove()">' : "";
+    return '<span class="tile-emoji">' + emoji + "</span>" + img;
   }
 
   function showMemory(s) {
-    var emoji = s.tile && s.tile.photo ? "" : (s.tile ? s.tile.emoji : "💛");
     var html =
       '<div class="card" role="dialog" aria-modal="true">' +
         '<p class="eyebrow">A memory</p>' +
-        '<div class="tile ' + (s.tile && s.tile.photo ? "photo" : "") + '" style="' + tileStyle(s) + '">' + emoji + "</div>" +
+        '<div class="tile" style="' + tileBg(s) + '">' + tileInner(s) + "</div>" +
         "<h1>" + esc(s.name) + "</h1>" +
         (s.arrive ? "<p>" + esc(s.arrive.text) + "</p>" : "") +
         (s.letterLine ? '<p class="fragment">“' + esc(s.letterLine) + '”</p>' : "") +
@@ -307,11 +309,10 @@
   }
 
   function showReveal(s) {
-    var emoji = s.tile && s.tile.photo ? "" : (s.tile ? s.tile.emoji : "💛");
     var html =
       '<div class="card" role="dialog" aria-modal="true">' +
         '<p class="eyebrow">A memory unlocked</p>' +
-        '<div class="tile ' + (s.tile && s.tile.photo ? "photo" : "") + '" style="' + tileStyle(s) + '">' + emoji + "</div>" +
+        '<div class="tile" style="' + tileBg(s) + '">' + tileInner(s) + "</div>" +
         "<h1>" + esc(s.name) + "</h1>" +
         (s.letterLine ? '<p class="fragment">“' + esc(s.letterLine) + '”</p>' : "") +
         '<p class="sub">Added to your letter & the mosaic.</p>' +
@@ -336,8 +337,7 @@
   function showFinale(s) {
     var tiles = STATIONS.filter(function (x) { return x.phase === "tomorrow" && x.tile; });
     var cells = tiles.map(function (x) {
-      var e = x.tile.photo ? "" : x.tile.emoji;
-      return '<div class="cell" style="' + tileStyle(x) + '">' + e + "</div>";
+      return '<div class="cell" style="' + tileBg(x) + '">' + tileInner(x) + "</div>";
     }).join("");
     var letter = (CONFIG.letter || []).map(function (p) { return "<p>" + esc(p) + "</p>"; }).join("");
     var lines = tiles.filter(function (x) { return x.letterLine; })
