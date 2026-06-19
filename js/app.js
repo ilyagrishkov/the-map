@@ -336,6 +336,10 @@
     state.done[s.id] = true; state.arrived[s.id] = true;
     state.times = state.times || {}; if (!state.times[s.id]) state.times[s.id] = new Date().toISOString();
     save();
+    // If the next stop must stay secret until tomorrow, enter standby BEFORE
+    // rendering — otherwise its pin flashes on the map behind the reveal.
+    var nextStop = activeStation();
+    if (nextStop && standbyNeeded(nextStop)) inStandby = true;
     renderProgress(); renderMap();
     if (s.id === "stroomi" && s.reveal) return showStroomiReveal(s);
     if (s.finale) return showFinale(s);
@@ -391,7 +395,7 @@
       hideOverlay(); lastFitKey = "";
       var a = activeStation();
       if (a && standbyNeeded(a)) { sheetStandby(a); }
-      else { renderMap(); if (a) sheetClue(a); }
+      else { inStandby = false; renderMap(); if (a) sheetClue(a); }
     };
   }
 
