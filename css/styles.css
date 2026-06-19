@@ -322,8 +322,9 @@ button { font-family: inherit; }
 
 /* close-up "find the box" photo on the Stroomi screen */
 .spot-photo {
-  width: 100%; max-height: 40vh; object-fit: cover;
+  width: 100%; height: auto; max-height: 46vh; object-fit: contain;
   border-radius: 16px; margin: 2px 0 14px;
+  background: var(--bg);
   box-shadow: var(--shadow); display: block;
 }
 

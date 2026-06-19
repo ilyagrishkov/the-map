@@ -78,7 +78,7 @@ window.STATIONS = [
     arrive: {
       title: "You're here — now find the box 📦",
       text: "Somewhere right around where you're standing, a little box is buried in the sand. This is exactly what to look for — match the photo, then dig. Inside is a letter, and a poem with a secret folded into it. 💛",   // <-- EDIT to match where you hide it
-      photo: "assets/photos/box.jpg",   // <-- a close-up of the hiding spot (drop a JPG named box.jpg into assets/photos/)
+      photo: "assets/photos/stroomiphoto.jpg",   // <-- the clue photo for finding the box
     },
     code: true,
     codePrompt: "The poem in the letter describes one word but never says it. Read it, then name it:",
