@@ -102,10 +102,11 @@ window.STATIONS = [
       text: "Careful by the edge. Sit with me a minute and just watch the water — this is one of those quiet places the island keeps for people who bother to look.",
     },
     quiz: {
-      // PERSONAL inside-joke ① — keep the question or change it, but PUT HER ANSWER below.
+      // PERSONAL — multiple choice. "choices" are shown as buttons; the correct one must be in "answers".
       question: "Where did we go on our very first trip together?",
-      answers: ["Helsinki", "Rimini", "Grindelwald", "Pärnu"],   // <-- EDIT: the place; add a few spellings e.g. "Lapland","Lapimaa"
-      hint: "Think all the way back — our first proper getaway.",   // <-- EDIT (optional)
+      choices: ["Helsinki", "Rimini", "Grindelwald", "Pärnu"],
+      answers: ["Grindelwald"],
+      hint: "Think all the way back — our first proper getaway.",
     },
     letterLine: "I'd climb to the edge of anywhere for a view like you.",
   },
@@ -186,10 +187,11 @@ window.STATIONS = [
       text: "Helmets on, picnic packed. From here a sandy trail runs about five kilometres across the cape — woods, dunes, and not another soul. Follow it north toward the water. (Soft sand near the end? We walk the bikes and laugh about it.)",
     },
     quiz: {
-      // PERSONAL inside-joke ② — keep the question or change it, but PUT THE ANSWER below.
+      // PERSONAL — multiple choice. "choices" are shown as buttons; the correct one must be in "answers".
       question: "How many countries have we explored together so far (incl. Estonia)?",
-      answers: ["9, 15, 18, 21"],   // <-- EDIT: the number, e.g. "7" and "seven"
-      hint: "Let's go one by one together with Google Maps",   // <-- EDIT (optional)
+      choices: ["9", "15", "18", "21"],
+      answers: ["15"],
+      hint: "Let's go one by one together with Google Maps",
     },
     letterLine: "Side by side, at our own pace — that's my favourite way to go anywhere.",
   },
